@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   Badge,
-  Jumbotron
+  Jumbotron,
+  Alert
 } from "react-bootstrap";
 import Body from "./body";
 Math.import(require("mathjs-simple-integral"));
@@ -23,6 +24,7 @@ class FxForm extends Component {
       k: 1,
       dataPoints: undefined,
       error: false,
+      errorMsg: "",
       integral: "",
       parsed: "",
       y0: 0,
@@ -32,6 +34,12 @@ class FxForm extends Component {
   calculate() {
     try {
       var { f, h, k, x0, y0 } = this.state;
+      console.log(typeof(h));
+      console.log(isNaN(h));
+      if (isNaN(h) || isNaN(k) || isNaN(x0) || isNaN(y0)) {
+        this.setState({ error: true, errorMsg: "check values please!" });
+        return;
+      }
       this.setState({
         dataPoints: euler(f, h, k, x0, y0),
         parsed: Math.simplify(Math.parse(this.state.f)).toTex(),
@@ -39,19 +47,26 @@ class FxForm extends Component {
       });
       this.setState({ error: false });
     } catch (error) {
-      console.log(error);
-      this.setState({ error: true });
+      this.setState({ error: true, errorMsg: error.toString() });
     }
   }
   render() {
     return (
       <div>
+        {this.state.error ? (
+          <Alert dismissible variant="danger">
+            <Alert.Heading>Oops! :(</Alert.Heading>
+            <p>{this.state.errorMsg}</p>
+          </Alert>
+        ) : (
+          ""
+        )}
         <Container style={{ marginTop: 20 }}>
           <Jumbotron>
             <Form>
               <Form.Group as={Row} controlId="formPlaintextEmail">
                 <Form.Label column sm="1">
-                  dx/dt:
+                  dy/dx:
                 </Form.Label>
                 <Col sm="4">
                   <Form.Control

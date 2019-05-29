@@ -10,8 +10,8 @@ class Graph extends Component {
             <VictoryChart
               animate={{ duration: 1000 }}
               // domain={{ x: [-20, 20], y: [-20, 20] }}
-              domain={{x: [-4, 4], y: [-4, 4]}}
-              domainPadding={{x: [10, -10], y: [10,-10]}}
+              domain={{ x: [-5, 5], y: [-4, 4] }}
+              // domainPadding={{ x: 1, y: 4 }}
               theme={VictoryTheme.material}
               style={{ parent: { maxWidth: "110%" } }}
             >
@@ -34,7 +34,7 @@ class Graph extends Component {
                 }}
               />
               <VictoryLine
-                data={integral} 
+                data={integral}
                 style={{
                   data: {
                     stroke: "#93cc93", // <-------

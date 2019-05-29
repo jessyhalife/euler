@@ -31,7 +31,7 @@ export function euler(f, h, k, x0, y0) {
   var funcion = [];
   var integral = [];
 
-    for (i = -10; i <= 10; i += 0.5) {
+    for (i = -50; i <= 50; i += 0.1) {
       funcion.push({ x: i, y: Math.eval(f, { x: i, k: k }) });
       integral.push({ x: i, y: Math.eval(int.toString(), { x: i, k: k }) });
     }
