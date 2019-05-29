@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import {
-  Navbar,
-  Form,
-  Button,
-  Nav,
-  NavDropdown,
-  FormControl
+  Navbar
 } from "react-bootstrap";
 export default class Main extends Component {
   render() {

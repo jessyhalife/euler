@@ -23,8 +23,8 @@ class FxForm extends Component {
       k: 1,
       dataPoints: undefined,
       error: false,
-      integral: '',
-      parsed: ''
+      integral: "",
+      parsed: ""
     };
   }
   calculate() {
@@ -32,7 +32,7 @@ class FxForm extends Component {
       this.setState({
         dataPoints: euler(this.state.f, this.state.h, this.state.k),
         parsed: Math.simplify(Math.parse(this.state.f)).toTex(),
-        integral: Math.simplify(Math.integral(this.state.f, 'x')).toTex() 
+        integral: Math.simplify(Math.integral(this.state.f, "x")).toTex()
       });
       this.setState({ error: false });
     } catch (error) {
