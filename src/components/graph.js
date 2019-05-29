@@ -9,7 +9,9 @@ class Graph extends Component {
           <div>
             <VictoryChart
               animate={{ duration: 1000 }}
-              domain={{ x: [-20, 20], y: [-20, 20] }}
+              // domain={{ x: [-20, 20], y: [-20, 20] }}
+              domain={{x: [-4, 4], y: [-4, 4]}}
+              domainPadding={{x: [10, -10], y: [10,-10]}}
               theme={VictoryTheme.material}
               style={{ parent: { maxWidth: "110%" } }}
             >

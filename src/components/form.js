@@ -24,13 +24,16 @@ class FxForm extends Component {
       dataPoints: undefined,
       error: false,
       integral: "",
-      parsed: ""
+      parsed: "",
+      y0: 0,
+      x0: 0
     };
   }
   calculate() {
     try {
+      var { f, h, k, x0, y0 } = this.state;
       this.setState({
-        dataPoints: euler(this.state.f, this.state.h, this.state.k),
+        dataPoints: euler(f, h, k, x0, y0),
         parsed: Math.simplify(Math.parse(this.state.f)).toTex(),
         integral: Math.simplify(Math.integral(this.state.f, "x")).toTex()
       });
@@ -53,12 +56,36 @@ class FxForm extends Component {
                 <Col sm="4">
                   <Form.Control
                     isInvalid={this.state.error}
-                    placeholder="dx/dt"
+                    placeholder="dy/dx"
                     size="sm"
                     value={this.state.f}
                     onChange={e => this.setState({ f: e.target.value })}
                   />
                 </Col>
+              </Form.Group>
+              <Form.Group as={Row} controlId="formPlaintextEmail">
+                <Form.Label column sm="1">
+                  Initial values:
+                </Form.Label>
+                <Col sm="1">(</Col>
+                <Col sm="2">
+                  <Form.Control
+                    placeholder="x0"
+                    size="sm"
+                    value={this.state.x0}
+                    onChange={e => this.setState({ x0: e.target.value })}
+                  />
+                </Col>
+                <Col sm="1">,</Col>
+                <Col sm="2">
+                  <Form.Control
+                    placeholder="y0"
+                    size="sm"
+                    value={this.state.y0}
+                    onChange={e => this.setState({ y0: e.target.value })}
+                  />
+                </Col>
+                <Col sm="1">)</Col>
               </Form.Group>
               <Form.Group as={Row} controlId="formPlaintextEmail">
                 <Form.Label column sm="1">
