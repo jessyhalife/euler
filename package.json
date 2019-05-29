@@ -1,0 +1,35 @@
+{
+  "name": "simulation",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
+    "google-charts": "^2.0.0",
+    "mathjs": "^5.8.0",
+    "mathjs-simple-integral": "^0.1.1",
+    "react": "^16.8.5",
+    "react-bootstrap": "^1.0.0-beta.8",
+    "react-chartjs": "^1.2.0",
+    "react-dom": "^16.8.5",
+    "react-google-charts": "^3.0.11",
+    "react-katex": "^2.0.2",
+    "react-scripts": "2.1.8",
+    "victory": "^32.2.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
