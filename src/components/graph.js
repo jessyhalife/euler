@@ -32,7 +32,7 @@ class Graph extends Component {
                 }}
               />
               <VictoryLine
-                data={integral}
+                data={integral} 
                 style={{
                   data: {
                     stroke: "#93cc93", // <-------
