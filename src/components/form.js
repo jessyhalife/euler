@@ -80,7 +80,7 @@ class FxForm extends Component {
         () =>
           this.setState({
             parsed: Math.simplify(Math.parse(f)).toTex(),
-            integral: intParsed,
+            integral: Math.simplify(Math.integral(f, "x")).toTex(),
             data: {
               euler: chkEuler ? euler(f, h, k, x0, y0) : [],
               fn: fnParsed !== "" ? fn(f, k) : [{ x: 0, y: 0 }],
