@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { euler } from "../calculate/calculus";
+import {
+  euler,
+  euler_improved,
+  runge_kutta,
+  fn,
+  integral
+} from "../calculate/calculus";
 import * as Math from "mathjs";
 import {
   Form,
@@ -13,42 +19,86 @@ import {
 } from "react-bootstrap";
 import Body from "./body";
 Math.import(require("mathjs-simple-integral"));
+const initialState = {
+  showGraph: false,
+  f: "x",
+  h: 0.1, //default
+  k: 1,
+  euler: undefined,
+  error: false,
+  errorMsg: "",
+  integral: "",
+  parsed: "",
+  y0: 0,
+  x0: 0,
+  improved: undefined,
+  runge_kutta: undefined,
+  chkEuler: true,
+  chkEulerImproved: true,
+  chkRK: true,
+  data: {},
+  btnDisabled: false
+};
 class FxForm extends Component {
   constructor(props) {
     super(props);
     this.calculate = this.calculate.bind(this);
-    this.state = {
-      showGraph: false,
-      f: "x",
-      h: 0.1, //default
-      k: 1,
-      dataPoints: undefined,
-      error: false,
-      errorMsg: "",
-      integral: "",
-      parsed: "",
-      y0: 0,
-      x0: 0
-    };
+    this.reset = this.reset.bind(this);
+    this.state = initialState;
   }
+
+  reset() {
+    this.setState(initialState);
+  }
+
   calculate() {
     try {
-      var { f, h, k, x0, y0 } = this.state;
-      console.log(typeof(h));
-      console.log(isNaN(h));
+      var { f, h, k, x0, y0, chkEuler, chkEulerImproved, chkRK } = this.state;
       if (isNaN(h) || isNaN(k) || isNaN(x0) || isNaN(y0)) {
         this.setState({ error: true, errorMsg: "check values please!" });
         return;
       }
-      this.setState({
-        dataPoints: euler(f, h, k, x0, y0),
-        parsed: Math.simplify(Math.parse(this.state.f)).toTex(),
-        integral: Math.simplify(Math.integral(this.state.f, "x")).toTex()
+
+      var parsed = Math.simplify(Math.parse(f));
+      console.log(parsed.toTex());
+      this.setState({ parsed }, () => {
+        console.log(this.state.parsed);
       });
+
+      this.setState(
+        {
+          data: {}
+        },
+        () =>
+          this.setState({
+            parsed: Math.simplify(Math.parse(f)).toTex(),
+            integral: Math.simplify(Math.integral(f, "x")).toTex(),
+            data: {
+              euler: chkEuler ? euler(f, h, k, x0, y0) : [],
+              fn: fn(f, k),
+              i: integral(f, k),
+              improved: chkEulerImproved ? euler_improved(f, h, k, x0, y0) : [],
+              runge_kutta: chkRK ? runge_kutta(f, h, k, x0, y0) : []
+            }
+          })
+      );
       this.setState({ error: false });
     } catch (error) {
       this.setState({ error: true, errorMsg: error.toString() });
     }
+  }
+  _handleChange(_event) {
+    this.setState({ btnDisabled: true });
+    this.setState({ [_event.target.name]: _event.target.value }, () =>
+      this.setState({ btnDisabled: false })
+    );
+  }
+  _handleCheck(_event) {
+    this.setState({ btnDisabled: true });
+    this.setState(
+      { [_event.target.name]: !this.state[[_event.target.name]] },
+      () => this.setState({ btnDisabled: false })
+    );
   }
   render() {
     return (
@@ -72,9 +122,10 @@ class FxForm extends Component {
                   <Form.Control
                     isInvalid={this.state.error}
                     placeholder="dy/dx"
+                    name="f"
                     size="sm"
                     value={this.state.f}
-                    onChange={e => this.setState({ f: e.target.value })}
+                    onChange={e => this._handleChange(e)}
                   />
                 </Col>
               </Form.Group>
@@ -87,8 +138,9 @@ class FxForm extends Component {
                   <Form.Control
                     placeholder="x0"
                     size="sm"
+                    name="x0"
                     value={this.state.x0}
-                    onChange={e => this.setState({ x0: e.target.value })}
+                    onChange={e => this._handleChange(e)}
                   />
                 </Col>
                 <Col sm="1">,</Col>
@@ -96,8 +148,9 @@ class FxForm extends Component {
                   <Form.Control
                     placeholder="y0"
                     size="sm"
+                    name="y0"
                     value={this.state.y0}
-                    onChange={e => this.setState({ y0: e.target.value })}
+                    onChange={e => this._handleChange(e)}
                   />
                 </Col>
                 <Col sm="1">)</Col>
@@ -110,8 +163,9 @@ class FxForm extends Component {
                   <Form.Control
                     placeholder="h"
                     size="sm"
+                    name="h"
                     value={this.state.h}
-                    onChange={e => this.setState({ h: e.target.value })}
+                    onChange={e => this._handleChange(e)}
                   />
                 </Col>
               </Form.Group>
@@ -125,10 +179,9 @@ class FxForm extends Component {
                     type="range"
                     min="-5"
                     max="5"
+                    name="k"
                     value={this.state.k}
-                    onChange={e => {
-                      this.setState({ k: e.target.value });
-                    }}
+                    onChange={e => this._handleChange(e)}
                     step="1"
                   />
                 </Col>
@@ -136,15 +189,61 @@ class FxForm extends Component {
                   <Badge variant="secondary">K = {this.state.k}</Badge>
                 </Col>
               </Form.Group>
-              <Button variant="primary" onClick={this.calculate}>
-                Graph!
-              </Button>
+              <Row>
+                <Col sm="2">
+                  <Form.Check
+                    type="checkbox"
+                    label="Euler"
+                    name="chkEuler"
+                    checked={this.state.chkEuler}
+                    onChange={e => this._handleCheck(e)}
+                  />
+                </Col>
+                <Col sm="2">
+                  <Form.Check
+                    type="checkbox"
+                    label="Improved Euler"
+                    name="chkEulerImproved"
+                    checked={this.state.chkEulerImproved}
+                    onChange={e => this._handleCheck(e)}
+                  />
+                </Col>
+                <Col sm="2">
+                  <Form.Check
+                    type="checkbox"
+                    label="Runge Kutta k4"
+                    name="chkRK"
+                    checked={this.state.chkRK}
+                    onChange={e => this._handleCheck(e)}
+                  />
+                </Col>
+              </Row>
+              <hr />
+              <Row>
+                <Col lg="10">
+                  <Button
+                    disabled={this.state.btnDisabled}
+                    variant="primary"
+                    onClick={this.calculate}
+                  >
+                    Graph!
+                  </Button>
+                  &nbsp;
+                  <Button
+                    disabled={this.state.btnDisabled}
+                    variant="danger"
+                    onClick={this.reset}
+                  >
+                    RESET
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </Jumbotron>
           <Body
-            dataPoints={this.state.dataPoints}
-            function={this.state.parsed}
+            data={this.state.data}
             integral={this.state.integral}
+            funcion={this.state.parsed}
           />
         </Container>
       </div>

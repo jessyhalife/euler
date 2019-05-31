@@ -5,33 +5,49 @@ import "katex/dist/katex.min.css";
 import { InlineMath } from "react-katex";
 export default class Body extends Component {
   render() {
-    var { dataPoints } = this.props;
+    var { euler, improved, runge_kutta, fn, i } = this.props.data || [];
+    var { integral, funcion } = this.props;
+    console.log(funcion);
+    console.log(integral);
     return (
       <div>
-        {dataPoints ? (
+        {euler || improved || runge_kutta || fn || i ? (
           <Container style={{ marginTop: 50 }}>
             <Row>
               <Col>
-                <Graph data={dataPoints.p} integral={dataPoints.i} funcion={dataPoints.f} />
+                <Graph
+                  euler={euler}
+                  integral={i}
+                  funcion={fn}
+                  improved={improved}
+                  runge_kutta={runge_kutta}
+                />
               </Col>
               <Col sm="4">
-                <h5>Color References:</h5>
-                <Badge style={{ backgroundColor: "#ddbbaa" }}>Función</Badge>
-                <br />
-                <Badge style={{ backgroundColor: "#93cc93" }}>
-                  Integral Analitica
-                </Badge>
-                <br />
-                <Badge style={{ backgroundColor: "#f24f4f" }}>
-                  Integral - aproximación EULER
-                </Badge>
-                <br />
+                <h6>Función: {funcion ? <InlineMath math={funcion} /> : ""}</h6>
                 <h6>
-                  Función: <InlineMath math={this.props.function} />
+                  Integral: {integral ? <InlineMath math={integral} /> : ""}
                 </h6>
-                <h6>
-                  Integral: <InlineMath math={this.props.integral} />
-                </h6>
+                <hr />
+                <h6>Color References:</h6>
+                <hr />
+                <Badge style={{ backgroundColor: "#ddbbaa" }}>&nbsp;&nbsp;</Badge>
+                <label>Función dy/dx</label>
+                <br />
+                <Badge style={{ backgroundColor: "#93cc93" }}>&nbsp;&nbsp;</Badge>
+                <label>Integral Analitica</label>
+                <br />
+                <hr />
+                <h6>Methods</h6>
+                <hr />
+                <Badge style={{ backgroundColor: "red" }}>&nbsp;&nbsp;</Badge>
+                <label>EULER</label>
+                <br />
+                <Badge style={{ backgroundColor: "green" }}>&nbsp;&nbsp;</Badge>
+                <label> Improved EULER</label>
+                <br />
+                <Badge style={{ backgroundColor: "blue" }}>&nbsp;&nbsp;</Badge>
+                <label>RungeKutta K4</label>
               </Col>
             </Row>
           </Container>

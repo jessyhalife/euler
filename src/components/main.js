@@ -10,12 +10,15 @@ export default class Main extends Component {
         <Router>
           <Navbar bg="light" expand="lg">
             <Navbar.Brand href="">EULER Simulation</Navbar.Brand>
-            <Nav.Link href="calculate">Calculate</Nav.Link>
-            <Nav.Link href="about">About</Nav.Link>
+            {/* <Nav.Link href="calculate">Calculate</Nav.Link>
+            <Nav.Link href="about">About</Nav.Link> */}
           </Navbar>
-          <Route exact path="/" component={FxForm} />
-          <Route path="/calculate" component={FxForm} />
-          <Route path="/about" component={About} />
+          <Route exact path={process.env.PUBLIC_URL + "/"} component={FxForm} />
+          <Route
+            path={process.env.PUBLIC_URL + "/calculate"}
+            component={FxForm}
+          />
+          <Route path={process.env.PUBLIC_URL + "/about"} component={About} />
         </Router>
       </div>
     );

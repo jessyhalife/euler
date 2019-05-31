@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { VictoryLine, VictoryChart, VictoryTheme } from "victory";
 class Graph extends Component {
   render() {
-    const { data, integral, funcion } = this.props;
+    const { euler, integral, funcion, improved, runge_kutta } = this.props;
     return (
       <div>
-        {data ? (
+        {euler || integral || funcion || improved || runge_kutta ? (
           <div>
             <VictoryChart
               animate={{ duration: 1000 }}
@@ -25,14 +25,33 @@ class Graph extends Component {
                 }}
               />
               <VictoryLine
-                data={data}
+                data={euler}
                 style={{
                   data: {
-                    stroke: "#f24f4f", // <-------
-                    strokeWidth: 2
+                    stroke: "red", // <-------
+                    strokeWidth: 1
                   }
                 }}
               />
+               <VictoryLine
+                data={improved}
+                style={{
+                  data: {
+                    stroke: "green", // <-------
+                    strokeWidth: 1
+                  }
+                }}
+              />
+              <VictoryLine
+                data={runge_kutta}
+                style={{
+                  data: {
+                    stroke: "blue", // <-------
+                    strokeWidth: 1
+                  }
+                }}
+              />
+             
               <VictoryLine
                 data={integral}
                 style={{
