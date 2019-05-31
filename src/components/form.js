@@ -62,9 +62,9 @@ class FxForm extends Component {
       var fnParsed;
       try {
         //check if I can calculate intergral, if not, I will not graph it.
-        intParsed = Math.simplify(Math.integral(f, "x")).toTex();
-        Math.eval(intParsed, { x: 1, k: k });
-      } catch {
+        intParsed = Math.simplify(Math.integral(f, "x")).toString();
+        intParsed = Math.eval(intParsed, { x: 1, k: k }).toString();
+      } catch (error) {
         intParsed = "";
       }
       try {
@@ -72,8 +72,7 @@ class FxForm extends Component {
       } catch {
         fnParsed = "";
       }
-      console.log(`fn ${fnParsed}`);
-      console.log(`in ${intParsed}`);
+
       this.setState(
         {
           data: {}

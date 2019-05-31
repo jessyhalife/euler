@@ -7,8 +7,7 @@ export default class Body extends Component {
   render() {
     var { euler, improved, runge_kutta, fn, i } = this.props.data || [];
     var { integral, funcion } = this.props;
-    console.log(funcion);
-    console.log(integral);
+
     return (
       <div>
         {euler || improved || runge_kutta || fn || i ? (
