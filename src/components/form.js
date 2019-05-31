@@ -37,7 +37,8 @@ const initialState = {
   chkEulerImproved: true,
   chkRK: true,
   data: {},
-  btnDisabled: false
+  btnDisabled: false,
+  info: ""
 };
 class FxForm extends Component {
   constructor(props) {
@@ -58,13 +59,22 @@ class FxForm extends Component {
         this.setState({ error: true, errorMsg: "check values please!" });
         return;
       }
-
-      var parsed = Math.simplify(Math.parse(f));
-      console.log(parsed.toTex());
-      this.setState({ parsed }, () => {
-        console.log(this.state.parsed);
-      });
-
+      var intParsed;
+      var fnParsed;
+      try {
+        //check if I can calculate intergral, if not, I will not graph it.
+        intParsed = Math.simplify(Math.integral(f, "x")).toTex();
+        Math.eval(intParsed, {x: 1, k: k});
+      } catch {
+        intParsed = "";
+      }
+      try {
+        fnParsed = Math.eval(f, { x: 1, k: k });
+      } catch {
+        fnParsed = "";
+      }
+      console.log(`fn ${fnParsed}`);
+      console.log(`in ${intParsed}`);
       this.setState(
         {
           data: {}
@@ -72,11 +82,11 @@ class FxForm extends Component {
         () =>
           this.setState({
             parsed: Math.simplify(Math.parse(f)).toTex(),
-            integral: Math.simplify(Math.integral(f, "x")).toTex(),
+            integral: intParsed,
             data: {
-              euler: chkEuler ? euler(f, h, k, x0, y0) : [],
-              fn: fn(f, k),
-              i: integral(f, k),
+              euler: chkEuler ? euler(f, h, k, x0, y0) :  [],
+              fn: fnParsed !== "" ? fn(f, k) : [{x:0,y:0}],
+              i: intParsed !== "" ? integral(f, k) : [{x:0, y:0}],
               improved: chkEulerImproved ? euler_improved(f, h, k, x0, y0) : [],
               runge_kutta: chkRK ? runge_kutta(f, h, k, x0, y0) : []
             }

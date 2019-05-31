@@ -3,6 +3,8 @@ import { VictoryLine, VictoryChart, VictoryTheme } from "victory";
 class Graph extends Component {
   render() {
     const { euler, integral, funcion, improved, runge_kutta } = this.props;
+    console.log(integral);
+    console.log(funcion);
     return (
       <div>
         {euler || integral || funcion || improved || runge_kutta ? (
