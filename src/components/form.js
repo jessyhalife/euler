@@ -37,8 +37,7 @@ const initialState = {
   chkEulerImproved: true,
   chkRK: true,
   data: {},
-  btnDisabled: false,
-  info: ""
+  btnDisabled: false
 };
 class FxForm extends Component {
   constructor(props) {
@@ -64,7 +63,7 @@ class FxForm extends Component {
       try {
         //check if I can calculate intergral, if not, I will not graph it.
         intParsed = Math.simplify(Math.integral(f, "x")).toTex();
-        Math.eval(intParsed, {x: 1, k: k});
+        Math.eval(intParsed, { x: 1, k: k });
       } catch {
         intParsed = "";
       }
@@ -84,9 +83,9 @@ class FxForm extends Component {
             parsed: Math.simplify(Math.parse(f)).toTex(),
             integral: intParsed,
             data: {
-              euler: chkEuler ? euler(f, h, k, x0, y0) :  [],
-              fn: fnParsed !== "" ? fn(f, k) : [{x:0,y:0}],
-              i: intParsed !== "" ? integral(f, k) : [{x:0, y:0}],
+              euler: chkEuler ? euler(f, h, k, x0, y0) : [],
+              fn: fnParsed !== "" ? fn(f, k) : [{ x: 0, y: 0 }],
+              i: intParsed !== "" ? integral(f, k) : [{ x: 0, y: 0 }],
               improved: chkEulerImproved ? euler_improved(f, h, k, x0, y0) : [],
               runge_kutta: chkRK ? runge_kutta(f, h, k, x0, y0) : []
             }
