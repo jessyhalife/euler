@@ -9,7 +9,7 @@ export default class Main extends Component {
       <div>
         <Router>
           <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="">EULER Simulation</Navbar.Brand>
+            <Navbar.Brand href="">Numerical methods - Comparision</Navbar.Brand>
             {/* <Nav.Link href="calculate">Calculate</Nav.Link>
             <Nav.Link href="about">About</Nav.Link> */}
           </Navbar>
