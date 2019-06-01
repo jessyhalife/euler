@@ -19,6 +19,12 @@ export default class Main extends Component {
             component={FxForm}
           />
           <Route path={process.env.PUBLIC_URL + "/about"} component={About} />
+          <footer>Made with  <span
+        className="emoji"
+        role="img"
+        aria-label="love"
+        >❤️
+          </span> by @jessyhalife. </footer>
         </Router>
       </div>
     );
