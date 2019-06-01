@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/euler/precache-manifest.c179788f3699f43d6b3fea7c45925665.js"
+  "/euler/precache-manifest.76842619d9cb7248206f14b05838d195.js"
 );
 
 workbox.clientsClaim();
