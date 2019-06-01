@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import FxForm from "./form.js";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import About from "./about.js";

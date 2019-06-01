@@ -77,18 +77,26 @@ class FxForm extends Component {
         {
           data: {}
         },
-        () =>
-          this.setState({
-            parsed: Math.simplify(Math.parse(f)).toTex(),
-            integral: Math.simplify(Math.integral(f, "x")).toTex(),
-            data: {
-              euler: chkEuler ? euler(f, h, k, x0, y0) : [],
-              fn: fnParsed !== "" ? fn(f, k) : [{ x: 0, y: 0 }],
-              i: intParsed !== "" ? integral(f, k) : [{ x: 0, y: 0 }],
-              improved: chkEulerImproved ? euler_improved(f, h, k, x0, y0) : [],
-              runge_kutta: chkRK ? runge_kutta(f, h, k, x0, y0) : []
-            }
-          })
+        () => {
+          try {
+            this.setState({
+              parsed: Math.simplify(Math.parse(f)).toTex(),
+              integral: Math.simplify(Math.integral(f, "x")).toTex(),
+              data: {
+                euler: chkEuler ? euler(f, h, k, x0, y0) : [],
+                fn: fnParsed !== "" ? fn(f, k) : [{ x: 0, y: 0 }],
+                i: intParsed !== "" ? integral(f, k) : [{ x: 0, y: 0 }],
+                improved: chkEulerImproved
+                  ? euler_improved(f, h, k, x0, y0)
+                  : [],
+                runge_kutta: chkRK ? runge_kutta(f, h, k, x0, y0) : []
+              }
+            });
+          } catch (error) {
+            this.setState({ error: true, errorMsg: error.toString() });
+            return;
+          }
+        }
       );
       this.setState({ error: false });
     } catch (error) {
@@ -111,6 +119,10 @@ class FxForm extends Component {
   render() {
     return (
       <div>
+        <Alert dismissiblen variant="success">
+          <Alert.Heading>Attention!</Alert.Heading>
+          <p>I'm still working on this, if you see any white screen, please reload page, it might be a Math error</p>
+        </Alert>
         {this.state.error ? (
           <Alert dismissible variant="danger">
             <Alert.Heading>Oops! :(</Alert.Heading>
