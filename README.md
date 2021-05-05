@@ -3,7 +3,9 @@
 
 ## Euler vs improved Euler vs Runge Kutta K4
 
+Running @ local:
+
 `npm install`
 `npm start`
 
-or visit https://jessyhalife.github.io/euler/
+Play @ https://jessyhalife.github.io/euler/
